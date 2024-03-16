@@ -1,4 +1,4 @@
-package store.springbootshoppingmall.repository.member;
+package store.springbootshoppingmall.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import store.springbootshoppingmall.domain.Member;
 import store.springbootshoppingmall.domain.MemberGrade;
+import store.springbootshoppingmall.repository.member.MemberRepository;
+import store.springbootshoppingmall.repository.member.MemberSaveDto;
+import store.springbootshoppingmall.repository.member.MemberSearchCond;
+import store.springbootshoppingmall.repository.member.MemberUpdateDto;
 
 import java.util.List;
 

@@ -12,9 +12,13 @@ public interface MemberService {
 
     Member join(MemberSaveDto saveDto);
 
+    Member login(String email, String password);
+
     void updateMember(Long memberId, MemberUpdateDto updateDto);
 
     Optional<Member> findMemberById(Long id);
+
+    Optional<Member> findMemberByEmail(String email);
 
     List<Member> findAllMembers(MemberSearchCond memberSearch);
 }

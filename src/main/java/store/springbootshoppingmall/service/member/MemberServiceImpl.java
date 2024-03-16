@@ -19,7 +19,20 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member join(MemberSaveDto saveDto) {
+        //이메일 중복 검증
+        Optional<Member> existingMember = memberRepository.findByEmail(saveDto.getEmail());
+        if (existingMember.isPresent()) {
+            return null; //중복된 이메일을 발견한 경우 null 반환
+        }
+
         return memberRepository.save(saveDto);
+    }
+
+    @Override
+    public Member login(String email, String password) {
+        return memberRepository.findByEmail(email)
+                .filter(m -> m.getPassword().equals(password))
+                .orElse(null);  //패스워드가 맞지 않으면 null 반환
     }
 
     @Override
@@ -30,6 +43,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<Member> findMemberById(Long id) {
         return memberRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Member> findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 
     @Override

@@ -34,12 +34,23 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public void update(Long memberId, MemberUpdateDto updateDto) {
-        memberMapper.update(memberId, updateDto);
+        Member member = new Member();
+
+        member.setName(updateDto.getName());
+        member.setAddress1(updateDto.getAddress1());
+        member.setAddress2(updateDto.getAddress2());
+
+        memberMapper.update(memberId, member);
     }
 
     @Override
     public Optional<Member> findById(Long id) {
         return memberMapper.findById(id);
+    }
+
+    @Override
+    public Optional<Member> findByEmail(String email) {
+        return memberMapper.findByEmail(email);
     }
 
     @Override

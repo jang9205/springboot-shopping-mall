@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title},~{::section})}">
+    <title>Log In | BROMWELL</title>
+</head>
+
+<body>
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="checkout__form">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-4 m-auto">
+                            <!-- <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
+                            here</a> to enter your code</h6> -->
+                            <h3 class="checkout__title mb-3">회원 로그인</h3>
+                            <form action="/login" th:action th:object="${loginDto}" method="post">
+
+                                <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+                                    <span th:each="err : ${#fields.globalErrors()}"
+                                       th:text="${err}"></span>
+                                </div>
+
+                                <!-- Success message -->
+                                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                                    <span th:text="${successMessage}"></span>
+                                </div>
+
+                                <div class="checkout__input">
+                                    <p>이메일</p>
+                                    <p><span th:errors="*{email}" /></p>
+                                    <input type="text" id="email" th:field="*{email}">
+                                </div>
+
+                                <div class="checkout__input">
+                                    <p>비밀번호</p>
+                                    <p><span th:errors="*{password}" /></p>
+                                    <input type="password" id="password" th:field="*{password}">
+                                </div>
+                                <button type="submit" class="site-btn">로그인</button>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer th:replace="~{fragments/footer::footer}"></footer>
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.nicescroll.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title},~{::section})}">
+    <title>My Page | BROMWELL</title>
+</head>
+
+<body>
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6" style="margin: 0 auto;">
+                        <div class="checkout__order">
+                            <h4 class="order__title">회원 정보</h4>
+
+                            <ul class="checkout__total__products">
+                                <li>이메일 <span th:text="${loginMember.email}"></span></li>
+                                <li>이름 <span th:text="${loginMember.name}"></span></li>
+                                <li>주소 <span th:text="${loginMember.address1}"></span></li>
+                                <li>상세주소 <span th:text="${loginMember.address2}"></span></li>
+                            </ul>
+                        </div>
+<!--                        <button type="submit" class="site-btn">PLACE ORDER</button>-->
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+<!-- Checkout Section End -->
+
+<!-- Footer Section Begin -->
+<footer th:replace="~{fragments/footer::footer}"></footer>
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.nicescroll.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+
+</html>

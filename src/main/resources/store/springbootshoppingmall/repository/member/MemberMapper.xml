@@ -10,7 +10,7 @@
 
     <update id="update">
         update member
-        set name = #{updateDto.name}, address1 = #{updateDto.address1}, address2 = #{updateDto.address2}
+        set name = #{member.name}, address1 = #{member.address1}, address2 = #{member.address2}
         where member_id = #{id}
     </update>
 
@@ -18,6 +18,12 @@
         select member_id, email, name, address1, address2, grade
         from member
         where member_id = #{id}
+    </select>
+
+    <select id="findByEmail" resultType="Member">
+        select member_id, email, password, name, address1, address2, grade
+        from member
+        where email = #{email}
     </select>
 
     <select id="findAll" resultType="Member">

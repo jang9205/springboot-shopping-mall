@@ -12,9 +12,11 @@ public interface MemberMapper {
 
     void save(Member member);
 
-    void update(@Param("id") Long id, @Param("updateDto") MemberUpdateDto updateDto);
+    void update(@Param("id") Long id, @Param("member") Member member);
 
     Optional<Member> findById(Long id);
+
+    Optional<Member> findByEmail(String email);
 
     List<Member> findAll(MemberSearchCond memberSearch);
 }
