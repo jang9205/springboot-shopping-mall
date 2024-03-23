@@ -12,7 +12,7 @@ public class MemberLoginDto {
     private String email;
 
     @NotBlank(message = "비밀번호를 입력해 주세요.")
-    public String password;
+    private String password;
 
     public MemberLoginDto() {
     }

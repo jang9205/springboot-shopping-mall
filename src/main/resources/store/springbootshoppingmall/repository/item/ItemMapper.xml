@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="store.springbootshoppingmall.repository.item.ItemMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into item (name, size, color, price, content, stock_quantity, picture, category)
+        values (#{name}, #{size}, #{color}, #{price}, #{content}, #{stockQuantity}, #{picture}, #{category})
+    </insert>
+    
+    <update id="update">
+        update item
+        set name = #{item.name}, size = #{item.size}, color = #{item.color}, price = #{item.price},
+        content = #{item.content}, stock_quantity = #{item.stockQuantity}, picture = #{item.picture},
+        category = #{item.category})
+        where item_id = #{id}
+    </update>
+
+    <select id="findById" resultType="Item">
+        select item_id as id, category, name, size, color, price, content, picture
+        from item
+        where item_id = #{id}
+    </select>
+
+    <select id="findAll" resultType="Item">
+        select item_id as id, category, name, size, color, price, content, picture
+        from item
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="maxPrice != null">
+                and price &lt;= #{maxPrice}
+            </if>
+            <if test="minPrice != null">
+                and price &gt;= #{minPrice}
+            </if>
+        </where>
+    </select>
+    
+</mapper>

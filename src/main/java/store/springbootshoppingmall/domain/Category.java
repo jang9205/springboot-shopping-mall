@@ -1,11 +1,6 @@
 package store.springbootshoppingmall.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+public enum Category {
 
-@Getter @Setter
-public class Category {
-
-    private Long id;
-    private String name;
+    TShirt, Sweatshirt, Hoodie, Jacket, Pants, Shoes, Bag, Accessories, Beauty
 }

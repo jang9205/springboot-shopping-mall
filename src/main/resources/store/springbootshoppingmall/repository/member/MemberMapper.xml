@@ -15,19 +15,19 @@
     </update>
 
     <select id="findById" resultType="Member">
-        select member_id, email, name, address1, address2, grade
+        select member_id as id, email, name, address1, address2, grade
         from member
         where member_id = #{id}
     </select>
 
     <select id="findByEmail" resultType="Member">
-        select member_id, email, password, name, address1, address2, grade
+        select member_id as id, email, password, name, address1, address2, grade
         from member
         where email = #{email}
     </select>
 
     <select id="findAll" resultType="Member">
-        select member_id, email, name, address1, address2, grade
+        select member_id as id, email, name, address1, address2, grade
         from member
         <where>
             <if test="email != null and email != ''">

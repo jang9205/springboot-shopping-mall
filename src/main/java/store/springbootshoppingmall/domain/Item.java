@@ -2,20 +2,31 @@ package store.springbootshoppingmall.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import store.springbootshoppingmall.exception.NotEnoughStockException;
 
 @Getter @Setter
 public class Item {
 
-    public Long id;
-    public String name;
-    public String size;
-    public String color;
-    public int price;
-    public String content;
-    public int stockQuantity;
-    public List<String> pictures = new ArrayList<>();
-    public Category category;
+    private Long id;
+    private String name;
+    private String size;
+    private String color;
+    private int price;
+    private String content;
+    private int stockQuantity;
+    private String picture;
+    private Category category;
+
+    //비즈니스 로직
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
+    }
 }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title},~{::section})}">
+    <title>Item Save | BROMWELL</title>
+
+</head>
+
+<body>
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <div class="row">
+                <div class="col-lg-6 col-md-4 m-auto">
+                    <!-- <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
+                    here</a> to enter your code</h6> -->
+                    <h3 class="checkout__title mb-3">상품 등록</h3>
+                    <form action="/items/save" th:action th:object="${itemDto}" method="post" enctype="multipart/form-data">
+
+                        <div class="checkout__input">
+                            <p>상품 이름<span>*</span></p>
+                            <p><span th:errors="*{name}" /></p>
+                            <input type="text" id="name" th:field="*{name}">
+                        </div>
+
+                        <div class="checkout__input">
+                            <p>사이즈<span>*</span></p>
+                            <p><span th:errors="*{size}" /></p>
+                            <input type="text" id="size" th:field="*{size}">
+                        </div>
+
+                        <div class="checkout__input">
+                            <p>색상<span>*</span></p>
+                            <p><span th:errors="*{color}" /></p>
+                            <input type="text" id="color" th:field="*{color}">
+                        </div>
+
+                        <div class="checkout__input">
+                            <p>가격<span>*</span></p>
+                            <p><span th:errors="*{price}" /></p>
+                            <input type="text" id="price" th:field="*{price}">
+                        </div>
+
+                        <div class="checkout__input">
+                            <p>상품 설명<span>*</span></p>
+                            <p><span th:errors="*{content}" /></p>
+                            <textarea id="content" th:field="*{content}" rows="4" cols="60"></textarea>
+                        </div>
+
+                        <div class="checkout__input" style="margin-top: 30px;">
+                            <p>상품 수량<span>*</span></p>
+                            <p><span th:errors="*{stockQuantity}" /></p>
+                            <input type="text" id="stockQuantity" th:field="*{stockQuantity}">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkout__input"><p>상품 사진<span>*</span></p></div>
+                            <p><span th:errors="*{picture}" /></p>
+                            <input type="file" id="picture" th:field="*{picture}" accept="image/*">
+                        </div>
+
+                        <div class="checkout__input" style="margin-top: 30px;">
+                            <p>카테고리<span>*</span></p>
+                            <select id="category" name="category">
+                                <option value="">카테고리 선택</option>
+                                <option th:each="category : ${categoryList}" th:value="${category}" th:text="${category}"></option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6" style="text-align: right;">
+                            <div style="margin-top: 100px; margin-bottom: 150px;">
+                                <button type="submit" class="site-btn">상품 등록</button>
+                            </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Checkout Section End -->
+
+<!-- Footer Section Begin -->
+<footer th:replace="~{fragments/footer::footer}"></footer>
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+
+</html>

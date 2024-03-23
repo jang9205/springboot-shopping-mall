@@ -38,8 +38,9 @@ public class MemberController {
             return "members/join";
         }
 
-        //이메일 중복 체크
         Member member = memberService.join(saveDto);
+
+        //이메일 중복 체크
         if (member == null) {
             result.rejectValue("email", "duplicate.email", "이미 존재하는 이메일입니다.");
             return "members/join";
