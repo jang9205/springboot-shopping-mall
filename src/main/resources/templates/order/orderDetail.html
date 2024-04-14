@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title},~{::section})}">
+    <title>Order | BROMWELL</title>
+</head>
+
+<body>
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <div class="row">
+                <div class="m-auto">
+
+                    <h3 class="checkout__title mb-3">주문 상세 내역</h3>
+
+                    <table class="table table-striped" style="margin-bottom: 80px;">
+                        <thead>
+                        <tr>
+                            <th>주문 번호</th>
+                            <th>상품 정보</th>
+                            <th>수량</th>
+                            <th>가격</th>
+                            <th>주문 시간</th>
+                            <th>주문 상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${order.id}"></td>
+                            <td>
+                                <a th:href="@{/products/{itemId}(itemId=${order.orderItems[0].item.id})}">
+                                    <img th:src="${order.orderItems[0].item.picture}" alt="" style="max-width: 30%; width: 30%; height: 30%;">
+                                    <span th:utext="${order.orderItems[0].item.name + '&nbsp&nbsp / &nbsp&nbsp' +
+                                    order.orderItems[0].item.color + '&nbsp&nbsp / &nbsp&nbsp' + order.orderItems[0].item.size}"></span>
+                                </a>
+                            </td>
+                            <td th:text="${order.orderItems[0].count}"></td>
+                            <td th:text="${order.orderItems[0].orderPrice * order.orderItems[0].count} + '원'"></td>
+                            <td th:text="${formattedDate}"></td>
+                            <td th:text="${order.orderStatus}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 class="checkout__title mb-3">배송 정보</h3>
+
+                    <table class="table table-striped" style="margin-bottom: 80px;">
+                        <thead>
+                        <tr>
+                            <th>수취인 이름</th>
+                            <th>수취인 이메일</th>
+                            <th>배송 주소</th>
+                            <th>상세 주소</th>
+                            <th>배송 상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${order.member.name}"></td>
+                            <td th:text="${order.member.email}"></td>
+                            <td th:text="${order.delivery.address1}"></td>
+                            <td th:text="${order.delivery.address2}"></td>
+                            <td th:text="${order.delivery.deliveryStatus}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <form th:action="@{/order_detail/{orderId}/cancel(orderId=${orderId})}" method="post">
+                        <div class="shop__product__option__right">
+                            <button type="submit" class="site-btn"
+                                    th:if="${order.orderStatus == T(store.springbootshoppingmall.domain.OrderStatus).ORDER}">주문취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Checkout Section End -->
+
+
+
+<!-- Footer Section Begin -->
+<footer th:replace="~{fragments/footer::footer}"></footer>
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- JavaScript 코드로 메시지 표시 -->
+<script th:inline="javascript">
+    /* 상품 등록 성공 메시지 확인 */
+    var successOrder = [[${successOrder}]];
+    if (successOrder) {
+        alert(successOrder); // 메시지 박스로 메시지 표시
+    }
+</script>
+
+</html>

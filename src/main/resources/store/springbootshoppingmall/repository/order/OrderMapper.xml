@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="store.springbootshoppingmall.repository.order.OrderMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into orders (member_id, delivery_id, date, order_status)
+        values (#{member.id}, #{delivery.id}, #{date}, #{orderStatus})
+    </insert>
+
+    <update id="cancel">
+        update orders
+        set order_status = #{orderStatus}
+        where order_id = #{id}
+    </update>
+
+    <select id="findById" resultMap="orderResultMap">
+        select o.order_id as orderId, o.date as date, o.order_Status as orderStatus,
+        o.member_id as memberId, m.name as memberName, m.email as memberEmail, m.grade as memberGrade,
+        o.delivery_id as deliveryId, d.address1 as address1, d.address2 as address2, d.delivery_Status as deliveryStatus,
+        oi.order_item_id as orderItemId, oi.order_price as orderPrice, oi.count as count,
+        oi.item_id as itemId,
+        i.category as itemCategory, i.name as itemName, i.size as itemSize,
+        i.color as itemColor, i.picture as itemPicture, i.stock_quantity as itemStockQuantity
+        from orders o
+        join member m on o.member_id = m.member_id
+        join delivery d on o.delivery_id = d.delivery_id
+        left join order_item oi on o.order_id = oi.order_id
+        left join item i on oi.item_id = i.item_id
+        where o.order_id = #{id}
+    </select>
+
+    <select id="findByMember" resultMap="orderResultMap">
+        select o.order_id as orderId, o.date as date, o.order_Status as orderStatus,
+        o.delivery_id as deliveryId, d.delivery_Status as deliveryStatus,
+        oi.order_item_id as orderItemId, oi.order_price as orderPrice, oi.count as count,
+        oi.item_id as itemId,
+        i.category as itemCategory, i.name as itemName, i.size as itemSize,
+        i.color as itemColor, i.picture as itemPicture, i.stock_quantity as itemStockQuantity
+        from orders o
+        join member m on o.member_id = m.member_id
+        join delivery d on o.delivery_id = d.delivery_id
+        left join order_item oi on o.order_id = oi.order_id
+        left join item i on oi.item_id = i.item_id
+        where o.member_id = #{memberId}
+    </select>
+
+    <select id="findAll" resultMap="orderResultMap">
+        select o.order_id as orderId, o.date as date, o.order_Status as orderStatus,
+        o.delivery_id as deliveryId, d.delivery_Status as deliveryStatus,
+        oi.order_item_id as orderItemId, oi.order_price as orderPrice, oi.count as count,
+        oi.item_id as itemId,
+        i.category as itemCategory, i.name as itemName, i.size as itemSize,
+        i.color as itemColor, i.picture as itemPicture, i.stock_quantity as itemStockQuantity
+        from orders o
+        join member m on o.member_id = m.member_id
+        join delivery d on o.delivery_id = d.delivery_id
+        left join order_item oi on o.order_id = oi.order_id
+        left join item i on oi.item_id = i.item_id
+        <where>
+            <if test="memberName != null and memberName != ''">
+                and m.name like concat('%', #{memberName}, '%')
+            </if>
+            <if test="orderStatus != null">
+                and o.status = #{orderStatus}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="orderResultMap" type="Order">
+        <id property="id" column="orderId"/>
+        <result property="date" column="date"/>
+        <result property="orderStatus" column="orderStatus" javaType="store.springbootshoppingmall.domain.OrderStatus"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <association property="member" column="memberId" javaType="Member" resultMap="memberResultMap"/>
+        <association property="delivery" column="deliveryId" javaType="Delivery" resultMap="deliveryResultMap"/>
+        <collection property="orderItems" column="orderItemId" ofType="OrderItem" javaType="java.util.List" resultMap="orderItemResultMap"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="Member">
+        <id property="id" column="memberId"/>
+        <result property="name" column="memberName"/>
+        <result property="email" column="memberEmail"/>
+        <result property="grade" column="memberGrade" javaType="store.springbootshoppingmall.domain.MemberGrade"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    </resultMap>
+
+    <resultMap id="deliveryResultMap" type="Delivery">
+        <id property="id" column="deliveryId"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="deliveryStatus" column="deliveryStatus" javaType="store.springbootshoppingmall.domain.DeliveryStatus"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    </resultMap>
+
+    <resultMap id="orderItemResultMap" type="OrderItem">
+        <id property="id" column="orderItemId"/>
+        <result property="orderPrice" column="orderPrice"/>
+        <result property="count" column="count"/>
+        <association property="item" column="itemId" javaType="Item" resultMap="itemResultMap"/>
+    </resultMap>
+
+    <resultMap id="itemResultMap" type="Item">
+        <id property="id" column="itemId"/>
+        <result property="category" column="itemCategory" javaType="store.springbootshoppingmall.domain.Category"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="name" column="itemName"/>
+        <result property="size" column="itemSize"/>
+        <result property="color" column="itemColor"/>
+        <result property="picture" column="itemPicture"/>
+        <result property="stockQuantity" column="itemStockQuantity"/>
+    </resultMap>
+
+</mapper>

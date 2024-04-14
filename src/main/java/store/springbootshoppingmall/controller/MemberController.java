@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import store.springbootshoppingmall.domain.Member;
+import store.springbootshoppingmall.domain.Order;
 import store.springbootshoppingmall.repository.member.MemberLoginDto;
 import store.springbootshoppingmall.repository.member.MemberSaveDto;
 import store.springbootshoppingmall.service.member.MemberService;
+import store.springbootshoppingmall.service.order.OrderService;
 import store.springbootshoppingmall.util.SessionConst;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ import store.springbootshoppingmall.util.SessionConst;
 public class MemberController {
 
     private final MemberService memberService;
+    private final OrderService orderService;
 
     @GetMapping("/join")
     public String joinForm(@ModelAttribute("saveDto") MemberSaveDto saveDto) {
@@ -101,7 +107,10 @@ public class MemberController {
             return "redirect:/login";
         }
 
+        List<Order> orders = orderService.findOrdersByMember(loginMember.getId());
+
         model.addAttribute("loginMember", loginMember);
+        model.addAttribute("orders", orders);
         return "members/mypage";
     }
 

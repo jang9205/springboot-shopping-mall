@@ -78,15 +78,23 @@
 <!--                                </label>-->
                                 </div>
                             </div>
-                        </div>
-                        <div class="product__details__cart__option" style="margin-bottom: 150px;">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+
+                            <div class="row">
+                                <div class="product__details__option__color" style="margin: 0 auto;">
+                                    <span th:text="'재고: ' + ${item.stockQuantity}"></span>
                                 </div>
                             </div>
-                            <a href="#" class="primary-btn">주문하기</a>
                         </div>
+                        <form th:action="@{/products/{itemId}/order(itemId=${itemId})}" method="get">
+                            <div class="product__details__cart__option" style="margin-bottom: 150px;">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="number" name="count" value="1" min="1">
+                                    </div>
+                                </div>
+                                <button type="submit" class="primary-btn">주문하기</button>
+                            </div>
+                        </form>
 <!--                        <div class="product__details__btns__option">-->
 <!--                            <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>-->
 <!--                            <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>-->

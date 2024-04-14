@@ -17,13 +17,13 @@
     </update>
 
     <select id="findById" resultType="Item">
-        select item_id as id, category, name, size, color, price, content, picture
+        select item_id as id, category, name, size, color, price, content, stock_quantity as stockQuantity, picture
         from item
         where item_id = #{id}
     </select>
 
     <select id="findAll" resultType="Item">
-        select item_id as id, category, name, size, color, price, content, picture
+        select item_id as id, category, name, size, color, price, content, stock_quantity as stockQuantity, picture
         from item
         <where>
             <if test="name != null and name != ''">
@@ -37,5 +37,11 @@
             </if>
         </where>
     </select>
-    
+
+    <update id="updateStock">
+        update item
+        set stock_quantity = #{stockQuantity}
+        where item_id = #{id}
+    </update>
+
 </mapper>

@@ -17,4 +17,6 @@ public interface ItemMapper {
     Optional<Item> findById(Long id);
 
     List<Item> findAll(ItemSearchCond itemSearch);
+
+    void updateStock(Item item);
 }

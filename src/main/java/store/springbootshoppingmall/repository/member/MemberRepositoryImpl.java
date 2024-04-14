@@ -17,14 +17,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Member save(MemberSaveDto saveDto) {
-        Member member = new Member();
-
-        member.setEmail(saveDto.getEmail());
-        member.setPassword(saveDto.getPassword());
-        member.setName(saveDto.getName());
-        member.setAddress1(saveDto.getAddress1());
-        member.setAddress2(saveDto.getAddress2());
-        member.setGrade(saveDto.getGrade());
+        Member member = Member.saveMember(saveDto);
 
         memberMapper.save(member);
         log.info("New member id: {}", member.getId());
@@ -34,11 +27,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public void update(Long memberId, MemberUpdateDto updateDto) {
-        Member member = new Member();
-
-        member.setName(updateDto.getName());
-        member.setAddress1(updateDto.getAddress1());
-        member.setAddress2(updateDto.getAddress2());
+        Member member = Member.updateMember(updateDto);
 
         memberMapper.update(memberId, member);
     }

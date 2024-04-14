@@ -44,7 +44,7 @@ public class ItemServiceImpl implements ItemService {
 
             return itemRepository.save(itemDto);
         } catch (IOException e) {
-            throw new FileStorageException("Failed to store file", e);
+            throw new FileStorageException("사진 파일 등록에 실패했습니다.", e);
         }
     }
 
@@ -64,7 +64,7 @@ public class ItemServiceImpl implements ItemService {
 
             itemRepository.update(itemId, itemDto);
         } catch (IOException e) {
-            throw new FileStorageException("Failed to store file", e);
+            throw new FileStorageException("사진 파일 등록에 실패했습니다.", e);
         }
 
     }

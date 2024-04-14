@@ -3,6 +3,7 @@ package store.springbootshoppingmall.repository.item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import store.springbootshoppingmall.domain.Item;
+import store.springbootshoppingmall.exception.NotEnoughStockException;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,14 +16,14 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Item save(ItemDto itemDto) {
-        Item item = getItem(itemDto);
+        Item item = Item.createItem(itemDto);
         itemMapper.save(item);
         return item;
     }
 
     @Override
     public void update(Long itemId, ItemDto itemDto) {
-        Item item = getItem(itemDto);
+        Item item = Item.createItem(itemDto);
         itemMapper.update(itemId, item);
     }
 
@@ -36,17 +37,9 @@ public class ItemRepositoryImpl implements ItemRepository {
         return itemMapper.findAll(itemSearch);
     }
 
-    private static Item getItem(ItemDto itemDto) {
-        Item item = new Item();
-
-        item.setName(itemDto.getName());
-        item.setSize(itemDto.getSize());
-        item.setColor(itemDto.getColor());
-        item.setPrice(itemDto.getPrice());
-        item.setContent(itemDto.getContent());
-        item.setStockQuantity(itemDto.getStockQuantity());
-        item.setPicture(itemDto.getPicturePath());
-        item.setCategory(itemDto.getCategory());
-        return item;
+    @Override
+    public void updateStock(Item item) {
+        itemMapper.updateStock(item);
     }
+
 }

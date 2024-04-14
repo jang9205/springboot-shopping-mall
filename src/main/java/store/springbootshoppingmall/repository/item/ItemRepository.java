@@ -14,4 +14,6 @@ public interface ItemRepository {
     Optional<Item> findById(Long id);
 
     List<Item> findAll(ItemSearchCond itemSearchCond);
+
+    void updateStock(Item item);
 }

@@ -3,6 +3,7 @@ package store.springbootshoppingmall.domain;
 import lombok.Getter;
 import lombok.Setter;
 import store.springbootshoppingmall.exception.NotEnoughStockException;
+import store.springbootshoppingmall.repository.item.ItemDto;
 
 @Getter @Setter
 public class Item {
@@ -17,16 +18,18 @@ public class Item {
     private String picture;
     private Category category;
 
-    //비즈니스 로직
-    public void addStock(int quantity) {
-        this.stockQuantity += quantity;
-    }
+    // 생성 메서드
+    public static Item createItem(ItemDto itemDto) {
+        Item item = new Item();
 
-    public void removeStock(int quantity) {
-        int restStock = this.stockQuantity - quantity;
-        if (restStock < 0) {
-            throw new NotEnoughStockException("need more stock");
-        }
-        this.stockQuantity = restStock;
+        item.setName(itemDto.getName());
+        item.setSize(itemDto.getSize());
+        item.setColor(itemDto.getColor());
+        item.setPrice(itemDto.getPrice());
+        item.setContent(itemDto.getContent());
+        item.setStockQuantity(itemDto.getStockQuantity());
+        item.setPicture(itemDto.getPicturePath());
+        item.setCategory(itemDto.getCategory());
+        return item;
     }
 }

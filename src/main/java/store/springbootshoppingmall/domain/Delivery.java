@@ -9,5 +9,5 @@ public class Delivery {
     private Long id;
     private String address1;
     private String address2;
-    private DeliveryStatus status;  //배송상태 [READY, COMP]
+    private DeliveryStatus deliveryStatus;  //배송상태 [READY, COMP, CANCEL]
 }

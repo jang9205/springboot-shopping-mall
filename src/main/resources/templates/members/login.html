@@ -62,6 +62,14 @@
 </div>
 <!-- Search End -->
 
+<!-- JavaScript 코드로 메시지 표시 -->
+<script th:inline="javascript">
+    var needLogin = [[${needLogin}]];
+    if (needLogin) {
+        alert(needLogin); // 메시지 박스로 메시지 표시
+    }
+</script>
+
 <!-- Js Plugins -->
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
