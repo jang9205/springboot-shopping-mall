@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="store.springbootshoppingmall.repository.post.PostMapper">
+    
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into post (member_id, title, content, date, category, picture)
+        value (#{member.id}, #{title}, #{content}, #{date}, #{category}, #{picture})
+    </insert>
+    
+    <select id="findNoticeById" resultMap="postResultMap">
+        select p.post_id as postId, p.title as title, p.content as content, p.date as date, p.category as category,
+        p.picture as picture, p.member_id as memberId, m.name as memberName
+        from post p
+        join member m on p.member_id = m.member_id
+        where p.post_id = #{id} and p.category = "NOTICE"
+    </select>
+
+    <select id="findNoticeAll" resultMap="postResultMap">
+        select p.post_id as postId, p.title as title, p.content as content, p.date as date, p.category as category,
+        p.picture as picture, p.member_id as memberId, m.name as memberName
+        from post p
+        join member m on p.member_id = m.member_id
+        where p.category = "NOTICE"
+        ORDER BY p.post_id DESC;
+    </select>
+
+    <select id="findMagazineById" resultMap="postResultMap">
+        select p.post_id as postId, p.title as title, p.content as content, p.date as date, p.category as category,
+        p.picture as picture, p.member_id as memberId, m.name as memberName
+        from post p
+        join member m on p.member_id = m.member_id
+        where p.post_id = #{id} and p.category = "MAGAZINE"
+    </select>
+
+    <select id="findMagazineAll" resultMap="postResultMap">
+        select p.post_id as postId, p.title as title, p.content as content, p.date as date, p.category as category,
+        p.picture as picture, p.member_id as memberId, m.name as memberName
+        from post p
+        join member m on p.member_id = m.member_id
+        where p.category = "MAGAZINE"
+        ORDER BY p.post_id DESC;
+    </select>
+
+    <resultMap id="postResultMap" type="Post">
+        <id property="id" column="postId"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="date" column="date"/>
+        <result property="category" column="category" javaType="store.springbootshoppingmall.domain.ContentCategory"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="picture" column="picture"/>
+        <association property="member" column="memberId" javaType="Member" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="Member">
+        <id property="id" column="memberId"/>
+        <result property="name" column="memberName"/>
+    </resultMap>
+</mapper>

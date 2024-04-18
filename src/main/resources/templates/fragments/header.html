@@ -22,47 +22,46 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a th:href="@{/login}">로그인</a>
-                <a th:href="@{/join}">회원가입</a>
-                <a th:href="@{/notice}">고객센터</a>
-            </div>
-            <!-- <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div> -->
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-            <!-- <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div> -->
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <!-- <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div> -->
-    </div>
-    <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
     <header class="header">
+
+        <!-- Page Preloder -->
+        <div id="preloder">
+            <div class="loader"></div>
+        </div>
+
+        <!-- Offcanvas Menu Begin -->
+        <div class="offcanvas-menu-overlay"></div>
+        <div class="offcanvas-menu-wrapper">
+            <div class="offcanvas__option">
+                <div class="offcanvas__links">
+                    <div th:if="${loginName}">
+                        <a th:href="@{/mypage}" th:text="${loginName} + '님'">마이페이지</a>
+                        <a th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">로그아웃</a>
+                        <form th:action="@{/logout}" method="post" style="display: none;"></form>
+                        <a th:href="@{/notice}">고객센터</a>
+                    </div>
+
+                    <!-- If loginName is not present -->
+                    <div th:if="${loginName == null}">
+                        <a th:href="@{/login}">로그인</a>
+                        <a th:href="@{/join}">회원가입</a>
+                        <a th:href="@{/notice}">고객센터</a>
+                    </div>
+                </div>
+            </div>
+            <div class="offcanvas__nav__option">
+                <!-- Your offcanvas menu links here -->
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+        <!-- Offcanvas Menu End -->
+
         <div class="header__top">
             <div class="container">
                 <div class="row">

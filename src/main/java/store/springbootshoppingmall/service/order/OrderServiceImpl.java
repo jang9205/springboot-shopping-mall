@@ -42,10 +42,7 @@ public class OrderServiceImpl implements OrderService {
         itemRepository.updateStock(item);
 
         //배송정보 생성
-        Delivery delivery = new Delivery();
-        delivery.setAddress1(member.getAddress1());
-        delivery.setAddress2(member.getAddress2());
-        delivery.setDeliveryStatus(DeliveryStatus.READY);
+        Delivery delivery = Delivery.createDelivery(member);
         deliveryRepository.save(delivery);
 
         //주문상품 생성

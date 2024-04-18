@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title},~{::section})}">
+    <title>NOTICE | BROMWELL</title>
+</head>
+
+<body>
+
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <div class="row" style="margin-bottom: 50px;">
+                <div class="col-lg-10 col-md-9 m-auto">
+                    <h3 class="checkout__title mb-3">공지사항</h3>
+                    <div class="row">
+                        <div class="col-lg-10 col-md-7">
+                            <h5 th:text="${notice.title}"></h5>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <h5 th:text="${notice.member.name}"></h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                <div class="row" style="margin-bottom: 30px;">
+                    <div class="col-lg-10 col-md-9 m-auto">
+                        <div class="checkout__order">
+                            <ul class="checkout__total__products">
+                                <div class="container row" style="margin-bottom: 80px;">
+                                    <span th:utext="${notice.content}"></span>
+                                </div>
+                                <div class="container row" style="margin-bottom: 80px;" th:if="${notice.picture}">
+                                    <img th:src="${notice.picture}" alt="" style="max-width: 30%; width: 30%; height: 30%;">
+                                </div>
+                                <div class="container row">
+                                    <strong><span th:text="${formattedDate}"></span></strong>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="shop__product__option__right m-auto">
+                    <button type="button" class="site-btn" th:onclick="|location.href='@{/notice}'|">목록보기</button>
+                </div>
+            </div>
+            </div>
+        </div>
+</section>
+
+
+<!-- Footer Section Begin -->
+<footer th:replace="~{fragments/footer::footer}"></footer>
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- JavaScript 코드로 메시지 표시 -->
+<script th:inline="javascript">
+    var successMessage = [[${successMessage}]];
+    if (successMessage) {
+        alert(successMessage); // 메시지 박스로 메시지 표시
+    }
+</script>
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+
+</html>

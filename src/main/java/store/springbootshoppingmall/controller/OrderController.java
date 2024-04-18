@@ -126,6 +126,7 @@ public class OrderController {
         if (loginMember.getGrade() == MemberGrade.MANAGER || loginMember.getId().equals(orderMember.getId())) {
             orderService.cancelOrder(order);
             redirectAttributes.addAttribute("orderId", orderId);
+            redirectAttributes.addFlashAttribute("cancelOrder", "주문이 취소되었습니다.");
             return "redirect:/order_detail/{orderId}";
         }
         return "redirect:/";

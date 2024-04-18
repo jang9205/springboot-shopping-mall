@@ -2,9 +2,7 @@ package store.springbootshoppingmall.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,27 +11,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import store.springbootshoppingmall.domain.Category;
-import store.springbootshoppingmall.domain.Item;
 import store.springbootshoppingmall.domain.Member;
 import store.springbootshoppingmall.domain.MemberGrade;
-import store.springbootshoppingmall.repository.item.ItemDto;
-import store.springbootshoppingmall.repository.item.ItemSearchCond;
-import store.springbootshoppingmall.service.item.ItemService;
+import store.springbootshoppingmall.domain.Post;
+import store.springbootshoppingmall.repository.post.PostDto;
+import store.springbootshoppingmall.service.post.PostService;
 import store.springbootshoppingmall.util.SessionConst;
 
-import java.util.Arrays;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
-public class ItemController {
+public class PostController {
 
-    private final ItemService itemService;
+    private final PostService postService;
 
-    @GetMapping("/items/save")
-    public String saveForm(@ModelAttribute("itemDto") ItemDto itemDto, HttpServletRequest request, Model model) {
+    @GetMapping("/notice/save")
+    public String saveNoticeForm(@ModelAttribute("postDto") PostDto postDto, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
@@ -46,19 +41,15 @@ public class ItemController {
             return "redirect:/";
         }
 
-        List<Category> categoryList = Arrays.asList(Category.values());
-        model.addAttribute("categoryList", categoryList);
-        return "items/save";
+        return "posts/saveNotice";
     }
 
-    @PostMapping("/items/save")
-    public String saveItem(@Valid @ModelAttribute("itemDto") ItemDto itemDto, HttpServletRequest request,
-                           BindingResult result, RedirectAttributes redirectAttributes) {
-
+    @PostMapping("/notice/save")
+    public String saveNotice(@ModelAttribute("postDto") PostDto postDto, HttpServletRequest request,
+                             BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "items/save";
+            return "posts/saveNotice";
         }
-
         HttpSession session = request.getSession(false);
 
         if (session == null) {
@@ -71,21 +62,14 @@ public class ItemController {
             return "redirect:/";
         }
 
-        Item item = itemService.saveItem(itemDto);
-        redirectAttributes.addAttribute("itemId", item.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "상품이 성공적으로 등록되었습니다.");
-
-        return "redirect:/products/{itemId}";
+        Post post = postService.saveNotice(loginMember.getId(), postDto);
+        redirectAttributes.addAttribute("postId", post.getId());
+        redirectAttributes.addFlashAttribute("successMessage", "공지사항이 성공적으로 등록되었습니다.");
+        return "redirect:/notice/{postId}";
     }
 
-    @GetMapping("/shop")
-    public String items(@ModelAttribute("itemSearch") ItemSearchCond itemSearch, BindingResult result, Model model,
-                        HttpServletRequest request) {
-
-        if (result.hasErrors()) {
-            return "items/shop";
-        }
-
+    @GetMapping("/notice")
+    public String noticeList(HttpServletRequest request, Model model) {
         //세션에서 로그인한 사용자 정보 가져오기
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -95,17 +79,21 @@ public class ItemController {
             }
         }
 
-        //상품 목록 가져오기
-        List<Item> items = itemService.findAllItems(itemSearch);
-        model.addAttribute("items", items);
-        return "items/shop";
+        List<Post> notices = postService.findNoticeAll();
+        model.addAttribute("notices", notices);
+        return "posts/noticeList";
     }
 
-    @GetMapping("/products/{itemId}")
-    public String item(@PathVariable("itemId") Long itemId, Model model) {
-        Item item = itemService.findItemById(itemId).get();
-        model.addAttribute("item", item);
-        return "items/item";
-    }
+    @GetMapping("/notice/{postId}")
+    public String noticeDetail(@PathVariable("postId") Long postId, Model model) {
+        Post notice = postService.findNoticeById(postId).get();
 
+        //날짜 포맷팅
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        String formattedDate = notice.getDate().format(formatter);
+
+        model.addAttribute("formattedDate", formattedDate);
+        model.addAttribute("notice", notice);
+        return "posts/noticeDetail";
+    }
 }

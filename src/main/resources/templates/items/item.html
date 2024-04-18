@@ -38,7 +38,7 @@
 <!--                            <span> - 5 Reviews</span>-->
 <!--                        </div>-->
                         <h3 th:text="${item.price} + '원'">가격</h3>
-                        <p th:text="${item.content}"></p>
+                        <p th:utext="${item.content}"></p>
                         <div class="product__details__option">
                             <div class="row">
                                 <div class="product__details__option__size" style="margin: 0 auto;">
