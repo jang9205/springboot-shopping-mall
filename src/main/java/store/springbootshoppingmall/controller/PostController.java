@@ -64,7 +64,7 @@ public class PostController {
 
         Post post = postService.saveNotice(loginMember.getId(), postDto);
         redirectAttributes.addAttribute("postId", post.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "공지사항이 성공적으로 등록되었습니다.");
+        redirectAttributes.addFlashAttribute("successMessage", "공지사항이 등록되었습니다.");
         return "redirect:/notice/{postId}";
     }
 
@@ -95,5 +95,75 @@ public class PostController {
         model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("notice", notice);
         return "posts/noticeDetail";
+    }
+
+    @GetMapping("/magazine/save")
+    public String saveMagazineForm(@ModelAttribute("postDto") PostDto postDto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return "redirect:/login";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if (loginMember == null || loginMember.getGrade() != MemberGrade.MANAGER) {
+            return "redirect:/";
+        }
+
+        return "posts/saveMagazine";
+    }
+
+    @PostMapping("/magazine/save")
+    public String saveMagazine(@ModelAttribute("postDto") PostDto postDto, HttpServletRequest request,
+                               BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "posts/saveMagazine";
+        }
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return "redirect:/login";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if (loginMember == null || loginMember.getGrade() != MemberGrade.MANAGER) {
+            return "redirect:/";
+        }
+
+        Post post = postService.saveMagazine(loginMember.getId(), postDto);
+        redirectAttributes.addAttribute("postId", post.getId());
+        redirectAttributes.addFlashAttribute("successMessage", "게시글이 등록되었습니다.");
+        return "redirect:/magazine/{postId}";
+    }
+
+    @GetMapping("/magazine")
+    public String magazineList(HttpServletRequest request, Model model) {
+        //세션에서 로그인한 사용자 정보 가져오기
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            if (loginMember != null && loginMember.getGrade() == MemberGrade.MANAGER) {
+                model.addAttribute("manager", loginMember.getGrade());
+            }
+        }
+
+        List<Post> magazines = postService.findMagazineAll();
+        model.addAttribute("magazines", magazines);
+        return "posts/magazineList";
+    }
+
+    @GetMapping("/magazine/{postId}")
+    public String magazineDetail(@PathVariable("postId") Long postId, Model model) {
+        Post magazine = postService.findMagazineById(postId).get();
+
+        //날짜 포맷팅
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        String formattedDate = magazine.getDate().format(formatter);
+
+        model.addAttribute("formattedDate", formattedDate);
+        model.addAttribute("magazine", magazine);
+        return "posts/magazineDetail";
     }
 }

@@ -21,14 +21,29 @@
 <!-- Blog Section Begin -->
 <section class="blog spad">
     <div class="container">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-lg-6 col-md-6 col-sm-6"></div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="shop__product__option__right">
+                    <button type="button" class="site-btn" th:if="${manager}"
+                            th:onclick="|location.href='@{/magazine/save}'|">매거진 등록</button>
+                </div>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6" th:each="magazine : ${magazines}">
                 <div class="blog__item">
-                    <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
+                    <a th:href="@{/magazine/{postId}(postId=${magazine.id})}">
+                        <div class="blog__item__pic set-bg">
+                            <img th:src="${magazine.picture}" alt="">
+                        </div>
+                    </a>
                     <div class="blog__item__text">
-                        <span><img src="img/icon/calendar.png" alt=""> 16 February 2020</span>
-                        <h5>What Curling Irons Are The Best Ones</h5>
-                        <a href="#">Read More</a>
+                        <a th:href="@{/magazine/{postId}(postId=${magazine.id})}">
+<!--                            <img src="/img/icon/calendar.png" alt=""><span th:text="${magazine.date}"></span>-->
+                            <h5 th:text="${magazine.title}"></h5>
+                        </a>
+                        <a th:href="@{/magazine/{postId}(postId=${magazine.id})}">Read More</a>
                     </div>
                 </div>
             </div>

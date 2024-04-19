@@ -48,7 +48,7 @@ public class PostServiceImpl implements PostService {
                 postDto.setPicturePath("/img/notice/" + fileName);
             }
 
-            Post post = Post.creatPost(member, postDto);
+            Post post = Post.createPost(member, postDto);
             post.setCategory(ContentCategory.NOTICE);
 
             return postRepository.save(post);
@@ -85,7 +85,7 @@ public class PostServiceImpl implements PostService {
                 postDto.setPicturePath("/img/magazine/" + fileName);
             }
 
-            Post post = Post.creatPost(member, postDto);
+            Post post = Post.createPost(member, postDto);
             post.setCategory(ContentCategory.MAGAZINE);
 
             return postRepository.save(post);

@@ -5,8 +5,6 @@ import lombok.Setter;
 import store.springbootshoppingmall.repository.post.PostDto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter @Setter
 public class Post {
@@ -20,7 +18,7 @@ public class Post {
     private String picture;
 
     //생성 메서드
-    public static Post creatPost(Member member, PostDto postDto) {
+    public static Post createPost(Member member, PostDto postDto) {
         Post post = new Post();
 
         post.setMember(member);
