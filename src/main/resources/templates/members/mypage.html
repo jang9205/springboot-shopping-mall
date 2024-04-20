@@ -10,7 +10,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-                <div class="row" style="margin-bottom: 150px;">
+                <div class="row" style="margin-bottom: 30px;">
                     <div class="col-lg-6 col-md-6" style="margin: 0 auto;">
                         <div class="checkout__order">
                             <h4 class="order__title">회원 정보</h4>
@@ -25,7 +25,11 @@
 <!--                        <button type="submit" class="site-btn">PLACE ORDER</button>-->
                     </div>
                 </div>
-
+            <div class="row" style="margin-bottom: 150px;">
+                <div class="col-lg-6 col-md-6" style="margin: 0 auto;">
+                    <button type="button" class="site-btn" th:onclick="|location.href='@{/mypage/update}'|">배송지 수정</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="m-auto">
                     <h4 class="checkout__title mb-3">주문 목록</h4>
@@ -78,6 +82,14 @@
     </div>
 </div>
 <!-- Search End -->
+
+<!-- JavaScript 코드로 메시지 표시 -->
+<script th:inline="javascript">
+    var successMessage = [[${successMessage}]];
+    if (successMessage) {
+        alert(successMessage); // 메시지 박스로 메시지 표시
+    }
+</script>
 
 <!-- Js Plugins -->
 <script src="/js/jquery-3.3.1.min.js"></script>

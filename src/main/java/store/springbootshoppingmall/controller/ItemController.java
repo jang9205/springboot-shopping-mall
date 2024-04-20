@@ -79,7 +79,7 @@ public class ItemController {
     }
 
     @GetMapping("/shop")
-    public String items(@ModelAttribute("itemSearch") ItemSearchCond itemSearch, BindingResult result, Model model,
+    public String items(@Valid @ModelAttribute("itemSearch") ItemSearchCond itemSearch, BindingResult result, Model model,
                         HttpServletRequest request) {
 
         if (result.hasErrors()) {

@@ -8,10 +8,8 @@ public class ItemSearchCond {
 
     private String name;
 
-    @Digits(integer = 0, fraction = 0, message = "숫자를 입력하세요.")
     private Integer maxPrice;
 
-    @Digits(integer = 0, fraction = 0, message = "숫자를 입력하세요.")
     private Integer minPrice;
 
     public ItemSearchCond() {

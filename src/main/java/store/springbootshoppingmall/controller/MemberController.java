@@ -16,11 +16,11 @@ import store.springbootshoppingmall.domain.Member;
 import store.springbootshoppingmall.domain.Order;
 import store.springbootshoppingmall.repository.member.MemberLoginDto;
 import store.springbootshoppingmall.repository.member.MemberSaveDto;
+import store.springbootshoppingmall.repository.member.MemberUpdateDto;
 import store.springbootshoppingmall.service.member.MemberService;
 import store.springbootshoppingmall.service.order.OrderService;
 import store.springbootshoppingmall.util.SessionConst;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -114,4 +114,50 @@ public class MemberController {
         return "members/mypage";
     }
 
+    @GetMapping("/mypage/update")
+    public String updateForm(@ModelAttribute("updateDto") MemberUpdateDto updateDto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return "redirect:/login";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+        return "members/update";
+    }
+
+    @PostMapping("/mypage/update")
+    public String update(@Valid @ModelAttribute("updateDto") MemberUpdateDto updateDto, BindingResult result,
+                         HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "members/update";
+        }
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return "redirect:/login";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
+        memberService.updateMember(loginMember.getId(), updateDto);
+
+        // 업데이트된 회원 정보 가져오기
+        Member member = memberService.findMemberById(loginMember.getId()).get();
+
+        // 업데이트된 회원 정보로 세션 업데이트
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
+
+        redirectAttributes.addFlashAttribute("successMessage", "배송지가 수정되었습니다.");
+        return "redirect:/mypage";
+    }
 }

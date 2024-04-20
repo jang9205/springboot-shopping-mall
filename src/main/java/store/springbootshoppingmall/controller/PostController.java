@@ -2,6 +2,7 @@ package store.springbootshoppingmall.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +46,7 @@ public class PostController {
     }
 
     @PostMapping("/notice/save")
-    public String saveNotice(@ModelAttribute("postDto") PostDto postDto, HttpServletRequest request,
+    public String saveNotice(@Valid @ModelAttribute("postDto") PostDto postDto, HttpServletRequest request,
                              BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "posts/saveNotice";
@@ -115,7 +116,7 @@ public class PostController {
     }
 
     @PostMapping("/magazine/save")
-    public String saveMagazine(@ModelAttribute("postDto") PostDto postDto, HttpServletRequest request,
+    public String saveMagazine(@Valid @ModelAttribute("postDto") PostDto postDto, HttpServletRequest request,
                                BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "posts/saveMagazine";
