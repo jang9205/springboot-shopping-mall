@@ -35,7 +35,7 @@
                 <div class="blog__item">
                     <a th:href="@{/magazine/{postId}(postId=${magazine.id})}">
                         <div class="blog__item__pic set-bg">
-                            <img th:src="${magazine.picture}" alt="">
+                            <img th:src="@{'https://' + ${magazine.picture}}" alt="">
                         </div>
                     </a>
                     <div class="blog__item__text">

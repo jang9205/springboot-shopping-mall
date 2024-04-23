@@ -1,5 +1,6 @@
 package store.springbootshoppingmall.service.post;
 
+import com.amazonaws.services.s3.AmazonS3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,6 @@ import store.springbootshoppingmall.repository.member.MemberRepository;
 import store.springbootshoppingmall.repository.post.PostDto;
 import store.springbootshoppingmall.repository.post.PostRepository;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -24,28 +24,28 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+    private final AmazonS3 amazonS3;
 
-    @Value("${file.dir2}")
-    private String fileDirNotice;
-
-    @Value("${file.dir3}")
-    private String fileDirMagazine;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
 
     @Override
     public Post saveNotice(Long memberId, PostDto postDto) {
         Member member = memberRepository.findById(memberId).get();
 
         try {
-            // 사진 저장 로직
+            //사진 저장 로직
             MultipartFile picture = postDto.getPicture();
 
-            if (picture != null && !picture.isEmpty()) { // 파일이 업로드된 경우에만 처리
+            if (picture != null && !picture.isEmpty()) {
                 String originalFilename = picture.getOriginalFilename();
                 String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-                String fullPath = fileDirNotice + fileName;
-                picture.transferTo(new File(fullPath));
 
-                postDto.setPicturePath("/img/notice/" + fileName);
+                //S3에 파일 업로드
+                amazonS3.putObject(bucketName, "post/" + fileName, picture.getInputStream(), null);
+
+                //S3에 저장된 파일의 키를 저장
+                postDto.setPicturePath(bucketName + ".s3.ap-northeast-2.amazonaws.com/post/" + fileName);
             }
 
             Post post = Post.createPost(member, postDto);
@@ -76,13 +76,15 @@ public class PostServiceImpl implements PostService {
             // 사진 저장 로직
             MultipartFile picture = postDto.getPicture();
 
-            if (picture != null && !picture.isEmpty()) { // 파일이 업로드된 경우에만 처리
+            if (picture != null && !picture.isEmpty()) {
                 String originalFilename = picture.getOriginalFilename();
                 String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-                String fullPath = fileDirMagazine + fileName;
-                picture.transferTo(new File(fullPath));
 
-                postDto.setPicturePath("/img/magazine/" + fileName);
+                //S3에 파일 업로드
+                amazonS3.putObject(bucketName, "post/" + fileName, picture.getInputStream(), null);
+
+                //S3에 저장된 파일의 키를 저장
+                postDto.setPicturePath(bucketName + ".s3.ap-northeast-2.amazonaws.com/post/" + fileName);
             }
 
             Post post = Post.createPost(member, postDto);

@@ -62,7 +62,7 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <img th:src="${item.picture}" alt="" style="max-width: 30%; width: 30%; height: 30%;">
+                                    <img th:src="@{'https://' + ${item.picture}}" alt="" style="max-width: 30%; width: 30%; height: 30%;">
                                     <span th:utext="${item.name + '&nbsp&nbsp / &nbsp&nbsp' +
                                     item.color + '&nbsp&nbsp / &nbsp&nbsp' + item.size}"></span>
                                 </td>

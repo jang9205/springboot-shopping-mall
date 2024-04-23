@@ -20,10 +20,10 @@
                             <p>브롬웰 24SS 컬렉션 단독 선발매</p>
                             <a th:href="@{/shop}" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             <div class="hero__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                                <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.pinterest.com/"><i class="fa fa-pinterest"></i></a>
+                                <a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -40,10 +40,10 @@
                             <p>BROMWELL 매거진에서는 패션과 문화의 아름다운 만남을 담은 다채로운 이야기들을 만날 수 있습니다.</p>
                             <a th:href="@{/magazine}" class="primary-btn">MAGAZINE <span class="arrow_right"></span></a>
                             <div class="hero__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                                <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.pinterest.com/"><i class="fa fa-pinterest"></i></a>
+                                <a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals" th:each="item : ${latestItems}">
                 <div class="product__item">
                     <a th:href="@{/products/{itemId}(itemId=${item.id})}">
-                        <img th:src="${item.picture}" alt="">
+                        <img th:src="@{'https://' + ${item.picture}}" alt="">
                     </a>
                     <div class="product__item__text">
                         <h6 th:text="${item.name}"></h6>

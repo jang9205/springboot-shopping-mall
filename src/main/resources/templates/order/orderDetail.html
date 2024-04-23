@@ -31,7 +31,8 @@
                             <td th:text="${order.id}"></td>
                             <td>
                                 <a th:href="@{/products/{itemId}(itemId=${order.orderItems[0].item.id})}">
-                                    <img th:src="${order.orderItems[0].item.picture}" alt="" style="max-width: 30%; width: 30%; height: 30%;">
+                                    <img th:src="@{'https://' + ${order.orderItems[0].item.picture}}" alt=""
+                                         style="max-width: 30%; width: 30%; height: 30%;">
                                     <span th:utext="${order.orderItems[0].item.name + '&nbsp&nbsp / &nbsp&nbsp' +
                                     order.orderItems[0].item.color + '&nbsp&nbsp / &nbsp&nbsp' + order.orderItems[0].item.size}"></span>
                                 </a>

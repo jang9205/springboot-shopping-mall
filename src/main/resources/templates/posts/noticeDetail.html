@@ -31,7 +31,8 @@
                                     <span th:utext="${notice.content}"></span>
                                 </div>
                                 <div class="container row" style="margin-bottom: 80px;" th:if="${notice.picture}">
-                                    <img th:src="${notice.picture}" alt="" style="max-width: 30%; width: 30%; height: 30%;">
+                                    <img th:src="@{'https://' + ${notice.picture}}" alt=""
+                                         style="max-width: 30%; width: 30%; height: 30%;">
                                 </div>
                                 <div class="container row">
                                     <strong><span th:text="${formattedDate}"></span></strong>
