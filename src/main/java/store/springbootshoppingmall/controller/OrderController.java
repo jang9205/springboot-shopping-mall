@@ -8,15 +8,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import store.springbootshoppingmall.domain.Item;
-import store.springbootshoppingmall.domain.Member;
-import store.springbootshoppingmall.domain.MemberGrade;
-import store.springbootshoppingmall.domain.Order;
+import store.springbootshoppingmall.domain.*;
+import store.springbootshoppingmall.repository.order.OrderSearchCond;
 import store.springbootshoppingmall.service.item.ItemService;
 import store.springbootshoppingmall.service.order.OrderService;
 import store.springbootshoppingmall.util.SessionConst;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -130,5 +130,28 @@ public class OrderController {
             return "redirect:/order_detail/{orderId}";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/orderList")
+    public String orderList(@ModelAttribute("orderSearch") OrderSearchCond orderSearch, Model model,
+                            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return "redirect:/login";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if (loginMember == null || loginMember.getGrade() != MemberGrade.MANAGER) {
+            return "redirect:/";
+        }
+
+        List<OrderStatus> statusList = Arrays.asList(OrderStatus.values());
+        List<Order> orders = orderService.findOrders(orderSearch);
+
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("orders", orders);
+        return "order/orderList";
     }
 }

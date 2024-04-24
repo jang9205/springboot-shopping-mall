@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header(~{::title},~{::section})}">
+    <title>My Page | BROMWELL</title>
+</head>
+
+<body>
+
+<section class="checkout spad">
+    <div class="container">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-lg-9 col-md-9 col-sm-9"></div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+<!--                <div class="shop__product__option__right">-->
+                    <div class="checkout__form">
+                        <form th:object="${orderSearch}" method="get">
+                            <div class="checkout__input">
+                                <input type="text" id="memberName" th:field="*{memberName}" placeholder="회원명">
+                            </div>
+                            <div class="checkout__input">
+                                <select id="orderStatus" name="orderStatus">
+                                    <option value="">주문상태 선택</option>
+                                    <option th:each="orderStatus : ${statusList}" th:value="${orderStatus}" th:text="${orderStatus}"></option>
+                                </select>
+                            </div>
+                            <div class="shop__product__option__right">
+                                <button type="submit" class="site-btn">검색</button>
+                            </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 col-md-10 m-auto">
+                <h2 class="checkout__title mb-3">주문 조회</h2>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>회원 번호</th>
+                        <th>회원명</th>
+                        <th>주문 번호</th>
+                        <th>상품 정보</th>
+                        <th>수량</th>
+                        <th>가격</th>
+                        <th>주문 시간</th>
+                        <th>주문 상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.member.id}"></td>
+                        <td th:text="${order.member.name}"></td>
+                        <td><a th:href="@{/order_detail/{orderId}(orderId=${order.id})}" th:text="${order.id}"></a></td>
+                        <td>
+                            <img th:src="@{'https://' + ${order.orderItems[0].item.picture}}" alt="" style="max-width: 15%; width: 15%; height: 15%;">
+                            <span th:utext="${order.orderItems[0].item.name + '&nbsp&nbsp / &nbsp&nbsp' +
+                                    order.orderItems[0].item.color + '&nbsp&nbsp / &nbsp&nbsp' + order.orderItems[0].item.size}"></span>
+                        </td>
+                        <td th:text="${order.orderItems[0].count}"></td>
+                        <td th:text="${order.orderItems[0].orderPrice * order.orderItems[0].count} + '원'"></td>
+                        <td th:text="${order.date}"></td>
+                        <td th:text="${order.orderStatus}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Section Begin -->
+<footer th:replace="~{fragments/footer::footer}"></footer>
+</body>
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+
+</html>

@@ -47,7 +47,8 @@
 
     <select id="findAll" resultMap="orderResultMap">
         select o.order_id as orderId, o.date as date, o.order_Status as orderStatus,
-        o.delivery_id as deliveryId, d.delivery_Status as deliveryStatus,
+        o.member_id as memberId, m.name as memberName, m.email as memberEmail, m.grade as memberGrade,
+        o.delivery_id as deliveryId, d.address1 as address1, d.address2 as address2, d.delivery_Status as deliveryStatus,
         oi.order_item_id as orderItemId, oi.order_price as orderPrice, oi.count as count,
         oi.item_id as itemId,
         i.category as itemCategory, i.name as itemName, i.size as itemSize,
@@ -62,7 +63,7 @@
                 and m.name like concat('%', #{memberName}, '%')
             </if>
             <if test="orderStatus != null">
-                and o.status = #{orderStatus}
+                and o.order_Status = #{orderStatus}
             </if>
         </where>
     </select>

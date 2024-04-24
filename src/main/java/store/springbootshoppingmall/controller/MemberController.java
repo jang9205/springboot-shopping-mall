@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import store.springbootshoppingmall.domain.Member;
+import store.springbootshoppingmall.domain.MemberGrade;
 import store.springbootshoppingmall.domain.Order;
 import store.springbootshoppingmall.repository.member.MemberLoginDto;
 import store.springbootshoppingmall.repository.member.MemberSaveDto;
+import store.springbootshoppingmall.repository.member.MemberSearchCond;
 import store.springbootshoppingmall.repository.member.MemberUpdateDto;
 import store.springbootshoppingmall.service.member.MemberService;
 import store.springbootshoppingmall.service.order.OrderService;
@@ -107,6 +109,10 @@ public class MemberController {
             return "redirect:/login";
         }
 
+        if (loginMember.getGrade() == MemberGrade.MANAGER) {
+            model.addAttribute("manager", loginMember.getGrade());
+        }
+
         List<Order> orders = orderService.findOrdersByMember(loginMember.getId());
 
         model.addAttribute("loginMember", loginMember);
@@ -159,5 +165,25 @@ public class MemberController {
 
         redirectAttributes.addFlashAttribute("successMessage", "배송지가 수정되었습니다.");
         return "redirect:/mypage";
+    }
+
+    @GetMapping("/memberList")
+    public String memberList(@ModelAttribute("memberSearch") MemberSearchCond memberSearch, Model model,
+                             HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return "redirect:/login";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        if (loginMember == null || loginMember.getGrade() != MemberGrade.MANAGER) {
+            return "redirect:/";
+        }
+
+        List<Member> members = memberService.findAllMembers(memberSearch);
+        model.addAttribute("members", members);
+        return "members/memberList";
     }
 }
