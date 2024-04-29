@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import store.springbootshoppingmall.domain.Member;
 import store.springbootshoppingmall.domain.MemberGrade;
 import store.springbootshoppingmall.domain.Post;
+import store.springbootshoppingmall.exception.FileStorageException;
 import store.springbootshoppingmall.repository.post.PostDto;
 import store.springbootshoppingmall.service.post.PostService;
 import store.springbootshoppingmall.util.SessionConst;
@@ -63,10 +64,16 @@ public class PostController {
             return "redirect:/";
         }
 
-        Post post = postService.saveNotice(loginMember.getId(), postDto);
-        redirectAttributes.addAttribute("postId", post.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "공지사항이 등록되었습니다.");
-        return "redirect:/notice/{postId}";
+        try {
+            Post post = postService.saveNotice(loginMember.getId(), postDto);
+            redirectAttributes.addAttribute("postId", post.getId());
+            redirectAttributes.addFlashAttribute("successMessage", "공지사항이 등록되었습니다.");
+            return "redirect:/notice/{postId}";
+
+        } catch (FileStorageException e) {
+            redirectAttributes.addFlashAttribute("failUpload", e.getMessage());
+            return "redirect:/notice/save";
+        }
     }
 
     @GetMapping("/notice")
@@ -133,10 +140,16 @@ public class PostController {
             return "redirect:/";
         }
 
-        Post post = postService.saveMagazine(loginMember.getId(), postDto);
-        redirectAttributes.addAttribute("postId", post.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "게시글이 등록되었습니다.");
-        return "redirect:/magazine/{postId}";
+        try {
+            Post post = postService.saveMagazine(loginMember.getId(), postDto);
+            redirectAttributes.addAttribute("postId", post.getId());
+            redirectAttributes.addFlashAttribute("successMessage", "게시글이 등록되었습니다.");
+            return "redirect:/magazine/{postId}";
+
+        } catch (FileStorageException e) {
+            redirectAttributes.addFlashAttribute("failUpload", e.getMessage());
+            return "redirect:/magazine/save";
+        }
     }
 
     @GetMapping("/magazine")

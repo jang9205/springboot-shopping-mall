@@ -127,5 +127,12 @@
     }
 </script>
 
+<script th:inline="javascript">
+    /* 주문 취소 실패 메시지 확인 */
+    var failCancelOrder = [[${failCancelOrder}]];
+    if (failCancelOrder) {
+        alert(failCancelOrder); // 메시지 박스로 메시지 표시
+    }
+</script>
 
 </html>

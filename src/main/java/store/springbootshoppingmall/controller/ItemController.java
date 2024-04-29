@@ -17,6 +17,7 @@ import store.springbootshoppingmall.domain.Category;
 import store.springbootshoppingmall.domain.Item;
 import store.springbootshoppingmall.domain.Member;
 import store.springbootshoppingmall.domain.MemberGrade;
+import store.springbootshoppingmall.exception.FileStorageException;
 import store.springbootshoppingmall.repository.item.ItemDto;
 import store.springbootshoppingmall.repository.item.ItemSearchCond;
 import store.springbootshoppingmall.service.item.ItemService;
@@ -71,11 +72,16 @@ public class ItemController {
             return "redirect:/";
         }
 
-        Item item = itemService.saveItem(itemDto);
-        redirectAttributes.addAttribute("itemId", item.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "상품이 성공적으로 등록되었습니다.");
+        try {
+            Item item = itemService.saveItem(itemDto);
+            redirectAttributes.addAttribute("itemId", item.getId());
+            redirectAttributes.addFlashAttribute("successMessage", "상품이 성공적으로 등록되었습니다.");
+            return "redirect:/products/{itemId}";
 
-        return "redirect:/products/{itemId}";
+        } catch (FileStorageException e) {
+            redirectAttributes.addFlashAttribute("failUpload", e.getMessage());
+            return "redirect:/items/save";
+        }
     }
 
     @GetMapping("/shop")

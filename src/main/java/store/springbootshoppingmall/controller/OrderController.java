@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import store.springbootshoppingmall.domain.*;
+import store.springbootshoppingmall.exception.CancelOrderException;
+import store.springbootshoppingmall.exception.NotEnoughStockException;
 import store.springbootshoppingmall.repository.order.OrderSearchCond;
 import store.springbootshoppingmall.service.item.ItemService;
 import store.springbootshoppingmall.service.order.OrderService;
@@ -70,10 +72,16 @@ public class OrderController {
             return "redirect:/login";
         }
 
-        Long orderId = orderService.order(loginMember.getId(), itemId, count);
-        redirectAttributes.addAttribute("orderId", orderId);
-        redirectAttributes.addFlashAttribute("successOrder", "상품 주문이 완료되었습니다.");
-        return "redirect:/order_detail/{orderId}";
+        try {
+            Long orderId = orderService.order(loginMember.getId(), itemId, count);
+            redirectAttributes.addAttribute("orderId", orderId);
+            redirectAttributes.addFlashAttribute("successOrder", "상품 주문이 완료되었습니다.");
+            return "redirect:/order_detail/{orderId}";
+
+        } catch (NotEnoughStockException e) {
+            redirectAttributes.addFlashAttribute("failOrder", e.getMessage());
+            return "redirect:/shop";
+        }
     }
 
     @GetMapping("order_detail/{orderId}")
@@ -123,10 +131,18 @@ public class OrderController {
         if (loginMember == null) {
             return "redirect:/login";
         }
-        if (loginMember.getGrade() == MemberGrade.MANAGER || loginMember.getId().equals(orderMember.getId())) {
-            orderService.cancelOrder(order);
+
+        try {
+            if (loginMember.getGrade() == MemberGrade.MANAGER || loginMember.getId().equals(orderMember.getId())) {
+                orderService.cancelOrder(order);
+                redirectAttributes.addAttribute("orderId", orderId);
+                redirectAttributes.addFlashAttribute("cancelOrder", "주문이 취소되었습니다.");
+                return "redirect:/order_detail/{orderId}";
+            }
+
+        } catch (CancelOrderException e) {
             redirectAttributes.addAttribute("orderId", orderId);
-            redirectAttributes.addFlashAttribute("cancelOrder", "주문이 취소되었습니다.");
+            redirectAttributes.addFlashAttribute("failCancelOrder", e.getMessage());
             return "redirect:/order_detail/{orderId}";
         }
         return "redirect:/";
