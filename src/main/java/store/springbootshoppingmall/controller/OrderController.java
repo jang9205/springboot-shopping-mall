@@ -76,6 +76,7 @@ public class OrderController {
             Long orderId = orderService.order(loginMember.getId(), itemId, count);
             redirectAttributes.addAttribute("orderId", orderId);
             redirectAttributes.addFlashAttribute("successOrder", "상품 주문이 완료되었습니다.");
+            log.info("Order - Member ID: {}, Order ID: {}", loginMember.getId(), orderId);
             return "redirect:/order_detail/{orderId}";
 
         } catch (NotEnoughStockException e) {
@@ -137,6 +138,8 @@ public class OrderController {
                 orderService.cancelOrder(order);
                 redirectAttributes.addAttribute("orderId", orderId);
                 redirectAttributes.addFlashAttribute("cancelOrder", "주문이 취소되었습니다.");
+                log.info("Order Cancel - Member ID: {}, Order ID: {}", loginMember.getId(), orderId);
+
                 return "redirect:/order_detail/{orderId}";
             }
 

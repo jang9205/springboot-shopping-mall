@@ -20,8 +20,6 @@ public class MemberRepositoryImpl implements MemberRepository {
         Member member = Member.saveMember(saveDto);
 
         memberMapper.save(member);
-        log.info("New member id: {}", member.getId());
-
         return member;
     }
 

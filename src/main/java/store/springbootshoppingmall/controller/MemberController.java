@@ -55,6 +55,8 @@ public class MemberController {
         }
 
         redirectAttributes.addFlashAttribute("successMessage", "회원가입 성공!");
+        log.info("Join - Member Id: {}", member.getId());
+
         return "redirect:/login";
     }
 
@@ -81,6 +83,7 @@ public class MemberController {
         //로그인 성공 처리
         HttpSession session = request.getSession(); //세션이 있으면 반환, 없으면 생성해서 반환
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        log.info("Login - Member Id: {}", loginMember.getId());
 
         return "redirect:/";
     }

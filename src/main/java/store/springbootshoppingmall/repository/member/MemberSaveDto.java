@@ -13,7 +13,7 @@ public class MemberSaveDto {
     @Email(message = "이메일 형식이 아닙니다.")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "영문, 숫자를 포함하여 8자 이상이어야 합니다.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$", message = "영문, 숫자를 포함하여 8자 이상이어야 합니다.")
     private String password;
 
     @NotBlank(message = "이름을 입력해 주세요.")
