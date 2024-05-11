@@ -12,7 +12,7 @@
         update item
         set name = #{item.name}, size = #{item.size}, color = #{item.color}, price = #{item.price},
         content = #{item.content}, stock_quantity = #{item.stockQuantity}, picture = #{item.picture},
-        category = #{item.category})
+        category = #{item.category}
         where item_id = #{id}
     </update>
 

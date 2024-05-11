@@ -16,4 +16,11 @@ public class PostDto {
     private MultipartFile picture;
 
     private String picturePath;
+
+    public PostDto(String title, String content, MultipartFile picture, String picturePath) {
+        this.title = title;
+        this.content = content;
+        this.picture = picture;
+        this.picturePath = picturePath;
+    }
 }

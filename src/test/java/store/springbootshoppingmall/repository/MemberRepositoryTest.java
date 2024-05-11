@@ -1,27 +1,49 @@
 package store.springbootshoppingmall.repository;
 
+import com.amazonaws.services.s3.AmazonS3;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
+import store.springbootshoppingmall.controller.HomeController;
+import store.springbootshoppingmall.controller.PostController;
 import store.springbootshoppingmall.domain.Member;
 import store.springbootshoppingmall.domain.MemberGrade;
-import store.springbootshoppingmall.repository.member.MemberRepository;
-import store.springbootshoppingmall.repository.member.MemberSaveDto;
-import store.springbootshoppingmall.repository.member.MemberSearchCond;
-import store.springbootshoppingmall.repository.member.MemberUpdateDto;
+import store.springbootshoppingmall.repository.member.*;
+import store.springbootshoppingmall.service.item.ItemService;
+import store.springbootshoppingmall.service.post.PostService;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-
 @Transactional
-@SpringBootTest
+@SpringBootTest(
+        properties = {
+                "cloud.aws.credentials.accessKey=test-access-key",
+                "cloud.aws.credentials.secretKey=test-secret-key",
+                "cloud.aws.region.static=test-region"
+        })
 public class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @MockBean
+    ItemService itemService;
+
+    @MockBean
+    AmazonS3 amazonS3;
+
+    @MockBean
+    HomeController homeController;
+
+    @MockBean
+    PostService postService;
+
+    @MockBean
+    PostController postController;
 
     @Test
     void saveMember() {
@@ -62,7 +84,6 @@ public class MemberRepositoryTest {
 
     @Test
     void findAllMembers() {
-        //given
         MemberSaveDto memberSaveDto1 = new MemberSaveDto("qqq1111@gmail.com", "rewq1235698",
                 "kim", "서울 송파구 올림픽로 300", "401-12");
         MemberSaveDto memberSaveDto2 = new MemberSaveDto("1234@naver.com", "rewq1235698",

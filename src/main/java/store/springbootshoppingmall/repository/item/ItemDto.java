@@ -33,4 +33,16 @@ public class ItemDto {
     public ItemDto() {
     }
 
+    public ItemDto(String name, String size, String color, int price, String content, int stockQuantity,
+                   MultipartFile picture, Category category, String picturePath) {
+        this.name = name;
+        this.size = size;
+        this.color = color;
+        this.price = price;
+        this.content = content;
+        this.stockQuantity = stockQuantity;
+        this.picture = picture;
+        this.category = category;
+        this.picturePath = picturePath;
+    }
 }
