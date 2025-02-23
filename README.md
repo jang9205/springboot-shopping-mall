@@ -22,7 +22,7 @@
 ### Deploy
 **Amazon EC2, Amazon RDS, Amazon S3, Ubuntu**<br/><br/>
 # Result
-[BROMWELL](http://13.124.208.171:8080/)<br/><br/>
+[BROMWELL](http://43.200.6.63:8080/)<br/><br/>
 #### shop
 ![image](https://github.com/jang9205/springboot-shopping-mall/assets/123082616/644fd761-a2ca-4356-9398-cc9fa9ace338)<br/><br/>
 <details>
