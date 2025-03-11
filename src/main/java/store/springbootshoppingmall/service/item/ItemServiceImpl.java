@@ -81,4 +81,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> findAllItems(ItemSearchCond itemSearch) {
         return itemRepository.findAll(itemSearch);
     }
+
+    @Override
+    public List<Item> findLatestItems() {
+        return itemRepository.findLatestItems();
+    }
 }

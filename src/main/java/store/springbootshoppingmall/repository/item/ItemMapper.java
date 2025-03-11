@@ -19,4 +19,6 @@ public interface ItemMapper {
     List<Item> findAll(ItemSearchCond itemSearch);
 
     void updateStock(Item item);
+
+    List<Item> findLatestItems();
 }

@@ -42,4 +42,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         itemMapper.updateStock(item);
     }
 
+    @Override
+    public List<Item> findLatestItems() {
+        return itemMapper.findLatestItems();
+    }
 }

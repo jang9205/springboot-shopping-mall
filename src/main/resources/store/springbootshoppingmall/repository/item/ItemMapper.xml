@@ -44,4 +44,11 @@
         where item_id = #{id}
     </update>
 
+    <select id="findLatestItems" resultType="Item">
+        select item_id as id, category, name, size, color, price, content, stock_quantity as stockQuantity, picture
+        from item
+        order by item_id desc
+        limit 4
+    </select>
+
 </mapper>

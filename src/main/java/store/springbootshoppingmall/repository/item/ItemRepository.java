@@ -16,4 +16,6 @@ public interface ItemRepository {
     List<Item> findAll(ItemSearchCond itemSearchCond);
 
     void updateStock(Item item);
+
+    List<Item> findLatestItems();
 }

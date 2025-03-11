@@ -17,5 +17,5 @@ public interface ItemService {
 
     List<Item> findAllItems(ItemSearchCond itemSearch);
 
-
+    List<Item> findLatestItems();
 }
